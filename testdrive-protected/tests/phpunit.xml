@@ -7,7 +7,7 @@
         stopOnFailure="false">
 
     <selenium>
-        <browser name="Safari" browser="*safari" />
+        <browser name="Firefox" browser="*firefox" />
     </selenium>
     <logging>
         <log type="coverage-html" target="/report" charset="UTF-8"
