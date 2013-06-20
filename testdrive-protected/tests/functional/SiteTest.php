@@ -10,7 +10,7 @@ class SiteTest extends WebTestCase
 
     public function testContact()
     {
-        $this->open('?r=site/contact');
+        $this->open('site/contact');
         $this->assertTextPresent('Contact Us');
         $this->assertElementPresent('name=ContactForm[name]');
 
@@ -20,7 +20,7 @@ class SiteTest extends WebTestCase
         $this->click("//input[@value='Submit']");
         $this->waitForTextPresent('Body cannot be blank.');
     }
-
+    /*
     public function testLoginLogout()
     {
         $this->open('');
@@ -44,4 +44,5 @@ class SiteTest extends WebTestCase
         $this->clickAndWait('link=Logout (demo)');
         $this->assertTextPresent('Login');
     }
+    */
 }

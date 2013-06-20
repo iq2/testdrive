@@ -21,5 +21,6 @@ protected function setUp()
 {
     parent::setUp();
     $this->setBrowserUrl(TEST_BASE_URL);
+    $this->setBrowser('*chrome');
 }
 }
