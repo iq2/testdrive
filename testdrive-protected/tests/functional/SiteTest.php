@@ -2,6 +2,7 @@
 
 class SiteTest extends WebTestCase
 {
+    /*
     public function testIndex()
     {
         $this->open('');
@@ -20,6 +21,7 @@ class SiteTest extends WebTestCase
         $this->click("//input[@value='Submit']");
         $this->waitForTextPresent('Body cannot be blank.');
     }
+    */
     /*
     public function testLoginLogout()
     {
