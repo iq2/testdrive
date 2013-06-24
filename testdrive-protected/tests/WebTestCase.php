@@ -21,7 +21,7 @@ protected function setUp()
 {
     parent::setUp();
     $this->setBrowserUrl(TEST_BASE_URL);
-    $this->setPort(4444);
-    $this->setBrowser('firefox');
+    $this->setPort(4443);
+    $this->setBrowser('*firefox');
 }
 }
