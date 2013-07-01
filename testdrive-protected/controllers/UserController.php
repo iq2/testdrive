@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function filters()
     {
-        /* test */ //another test
+        /* test */ //another test and now it's working!
         return array(
             //'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
