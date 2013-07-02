@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\wamp\www\testdrive\testdrive-protected\tests" tests="2" assertions="4" failures="0" errors="0" time="13.855476">
+    <testsuite name="SiteTest" file="C:\wamp\www\testdrive\testdrive-protected\tests\functional\SiteTest.php" tests="2" assertions="4" failures="0" errors="0" time="13.855476">
+      <testsuite name="SiteTest: Firefox" tests="2" assertions="4" failures="0" errors="0" time="13.855476">
+        <testcase name="testIndex" class="SiteTest" file="C:\wamp\www\testdrive\testdrive-protected\tests\functional\SiteTest.php" line="5" assertions="1" time="6.346266"/>
+        <testcase name="testContact" class="SiteTest" file="C:\wamp\www\testdrive\testdrive-protected\tests\functional\SiteTest.php" line="11" assertions="3" time="7.509210"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

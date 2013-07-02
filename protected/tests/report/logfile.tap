@@ -1,0 +1,4 @@
+TAP version 13
+ok 1 - SiteTest::testIndex
+ok 2 - SiteTest::testContact
+1..2
