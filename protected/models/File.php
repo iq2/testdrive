@@ -1,22 +1,22 @@
 <?php
 
 /**
-* This is the model class for table "file".
-*
-* The followings are the available columns in table 'file':
-* @property string $id
-* @property string $name
-* @property string $type
-* @property string $size
-* @property string $description
-* @property string $date_entered
-* @property string $date_updated
-* @property string $user_id
-*
-* The followings are the available model relations:
-* @property User $user
-* @property Page[] $pages
-*/
+ * This is the model class for table "file".
+ *
+ * The followings are the available columns in table 'file':
+ * @property string $id
+ * @property string $name
+ * @property string $type
+ * @property string $size
+ * @property string $description
+ * @property string $date_entered
+ * @property string $date_updated
+ * @property string $user_id
+ *
+ * The followings are the available model relations:
+ * @property User $user
+ * @property Page[] $pages
+ */
 class File extends CActiveRecord
 {
     /**
@@ -36,18 +36,18 @@ class File extends CActiveRecord
         // will receive user inputs.
         return array(
             array('name, type, size', 'required'),
-            array('description', 'filter', 'filter'=>'strip_tags'),
-            array('description', 'default', 'value'=>NULL),
-            array('name', 'length', 'max'=>80),
-            array('type', 'length', 'max'=>45),
-            array('type', 'validateFileType'),
-            array('date_entered', 'default', 'value'=>new CDbExpression('NOW()'), 'on'=>'insert'),
-            array('date_updated', 'default', 'value'=>new CDbExpression('NOW()'), 'on'=>'update'),
-            array('size, user_id', 'length', 'max'=>10),
+            array('description', 'filter', 'filter' => 'strip_tags'),
+            array('description', 'default', 'value' => null),
+            array('name', 'length', 'max' => 80),
+            array('type', 'length', 'max' => 45),
+            //array('type', 'validateFileType'),
+            array('date_entered', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
+            array('date_updated', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'update'),
+            array('size, user_id', 'length', 'max' => 10),
             array('description, date_updated', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, type, size, description, date_entered, date_updated, user_id', 'safe', 'on'=>'search'),
+            array('id, name, type, size, description, date_entered, date_updated, user_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -97,19 +97,19 @@ class File extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id,true);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('type',$this->type,true);
-        $criteria->compare('size',$this->size,true);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('date_entered',$this->date_entered,true);
-        $criteria->compare('date_updated',$this->date_updated,true);
-        $criteria->compare('user_id',$this->user_id,true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('type', $this->type, true);
+        $criteria->compare('size', $this->size, true);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('date_entered', $this->date_entered, true);
+        $criteria->compare('date_updated', $this->date_updated, true);
+        $criteria->compare('user_id', $this->user_id, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -119,7 +119,7 @@ class File extends CActiveRecord
      * @param string $className active record class name.
      * @return File the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

@@ -6,7 +6,7 @@ class PageController extends Controller
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout='//layouts/column2';
+    public $layout = '//layouts/column2';
 
     /**
      * @return array action filters
@@ -27,20 +27,24 @@ class PageController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view'),
-                'users'=>array('*'),
+            array(
+                'allow', // allow all users to perform 'index' and 'view' actions
+                'actions' => array('index', 'view'),
+                'users' => array('*'),
             ),
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update'),
-                'users'=>array('@'),
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','delete'),
-                'users'=>array('admin'),
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
             ),
-            array('deny',  // deny all users
-                'users'=>array('*'),
+            array(
+                'deny', // deny all users
+                'users' => array('*'),
             ),
         );
     }
@@ -51,9 +55,12 @@ class PageController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view',array(
-            'model'=>$this->loadModel($id),
-        ));
+        $this->render(
+            'view',
+            array(
+                'model' => $this->loadModel($id),
+            )
+        );
     }
 
     /**
@@ -62,21 +69,29 @@ class PageController extends Controller
      */
     public function actionCreate()
     {
-        $model=new Page;
+        $model = new Page;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['Page']))
-        {
-            $model->attributes=$_POST['Page'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+        if (isset($_POST['Page'])) {
+            $model->attributes = $_POST['Page'];
+            if (isset($_POST['ajax']) && $_POST['ajax'] === 'page-form')
+            {
+                echo CActiveForm::validate($model);
+                Yii::app()->end();
+            }
+            if ($model->save()) {
+                $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
-        $this->render('create',array(
-            'model'=>$model,
-        ));
+        $this->render(
+            'create',
+            array(
+                'model' => $model,
+            )
+        );
     }
 
     /**
@@ -86,21 +101,36 @@ class PageController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
+        $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if(isset($_POST['Page']))
-        {
-            $model->attributes=$_POST['Page'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+        if (isset($_POST['Page'])) {
+            $model->attributes = $_POST['Page'];
+            if ($model->save()) {
+
+                $q = "DELETE FROM page_has_file WHERE page_id={$model->id}";
+                $cmd = Yii::app()->db->createCommand($q);
+                $cmd->execute();
+
+                foreach ($_POST['Page']['files'] as $file) {
+                    $q = "INSERT INTO page_has_file (page_id, file_id) VALUES ({$model->id}, :file_id)";
+                    $cmd = Yii::app()->db->createCommand($q);
+                    $cmd->bindParam(':file_id', $file, PDO::PARAM_INT);
+                    $cmd->execute();
+                }
+
+                $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
-        $this->render('update',array(
-            'model'=>$model,
-        ));
+        $this->render(
+            'update',
+            array(
+                'model' => $model,
+            )
+        );
     }
 
     /**
@@ -113,8 +143,9 @@ class PageController extends Controller
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax']))
+        if (!isset($_GET['ajax'])) {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
     }
 
     /**
@@ -122,10 +153,41 @@ class PageController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('Page');
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
-        ));
+        // =============================================
+        $id = 3;
+        $dataProvider = new CActiveDataProvider('Page');
+        $q = 'SELECT * FROM page WHERE id=:id';
+        $cmd = Yii::app()->db->createCommand($q);
+        $cmd->bindParam(':id', $id, PDO::PARAM_INT);
+        $cmd->setFetchMode(PDO::FETCH_OBJ);
+        $model = $cmd->queryRow();
+        echo '<h1>Page Query 1 Result: </h1>';
+        if ($model) {
+            echo $model->title;
+        }
+        // =============================================
+        $cmd = Yii::app()->db->createCommand();
+        $cmd->select = 'title, user_id, content';
+        $cmd->from = 'page';
+        $cmd->order = 'date_published DESC';
+        $cmd->limit = '1';
+        $result = $cmd->query();
+        var_dump($result);
+
+        $cmd = Yii::app()->db->createCommand();
+        $cmd->select('title, user_id, content')->from('page')->where('live=1')->limit('1');
+        $result = $cmd->query();
+        foreach ($result as $row)
+        {
+            echo $row['title'] . " " . $row['user_id'] . " " . $row['content'];
+        }
+
+        $this->render(
+            'index',
+            array(
+                'dataProvider' => $dataProvider,
+            )
+        );
     }
 
     /**
@@ -133,14 +195,18 @@ class PageController extends Controller
      */
     public function actionAdmin()
     {
-        $model=new Page('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Page']))
-            $model->attributes=$_GET['Page'];
+        $model = new Page('search');
+        $model->unsetAttributes(); // clear any default values
+        if (isset($_GET['Page'])) {
+            $model->attributes = $_GET['Page'];
+        }
 
-        $this->render('admin',array(
-            'model'=>$model,
-        ));
+        $this->render(
+            'admin',
+            array(
+                'model' => $model,
+            )
+        );
     }
 
     /**
@@ -152,9 +218,10 @@ class PageController extends Controller
      */
     public function loadModel($id)
     {
-        $model=Page::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,'The requested page does not exist.');
+        $model = Page::model()->findByPk($id);
+        if ($model === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -164,8 +231,7 @@ class PageController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='page-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'page-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

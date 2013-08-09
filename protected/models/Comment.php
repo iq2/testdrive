@@ -1,19 +1,19 @@
 <?php
 
 /**
-* This is the model class for table "comment".
-*
-* The followings are the available columns in table 'comment':
-* @property integer $id
-* @property string $comment
-* @property string $date_entered
-* @property string $user_id
-* @property string $page_id1
-*
-* The followings are the available model relations:
-* @property User $user
-* @property Page $pageId1
-*/
+ * This is the model class for table "comment".
+ *
+ * The followings are the available columns in table 'comment':
+ * @property integer $id
+ * @property string $comment
+ * @property string $date_entered
+ * @property string $user_id
+ * @property string $page_id1
+ *
+ * The followings are the available model relations:
+ * @property User $user
+ * @property Page $pageId1
+ */
 class Comment extends CActiveRecord
 {
     /**
@@ -34,11 +34,11 @@ class Comment extends CActiveRecord
         return array(
             array('comment', 'required'),
             array('user_id, page_id1', 'exist'),
-            array('comment', 'filter', 'filter'=>'strip_tags'),
-            array('date_entered', 'default', 'value'=>new CDbExpression('NOW()'), 'on'=>'insert'),
+            array('comment', 'filter', 'filter' => 'strip_tags'),
+            array('date_entered', 'default', 'value' => new CDbExpression('NOW()'), 'on' => 'insert'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, comment, date_entered, user_id, page_id1', 'safe', 'on'=>'search'),
+            array('id, comment, date_entered, user_id, page_id1', 'safe', 'on' => 'search'),
         );
     }
 
@@ -85,16 +85,16 @@ class Comment extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('comment',$this->comment,true);
-        $criteria->compare('date_entered',$this->date_entered,true);
-        $criteria->compare('user_id',$this->user_id,true);
-        $criteria->compare('page_id1',$this->page_id1,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('comment', $this->comment, true);
+        $criteria->compare('date_entered', $this->date_entered, true);
+        $criteria->compare('user_id', $this->user_id, true);
+        $criteria->compare('page_id1', $this->page_id1, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -104,7 +104,7 @@ class Comment extends CActiveRecord
      * @param string $className active record class name.
      * @return Comment the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
