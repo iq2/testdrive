@@ -8,7 +8,7 @@ class PageController extends Controller
      */
     public $layout = '//layouts/column2';
 
-    //this is a test comment.
+    //this is a test comment
 
     /**
      * @return array action filters
